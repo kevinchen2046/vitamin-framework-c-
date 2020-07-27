@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "g++ main.ccp"
+    "build": "g++ main.cpp -o main",
+    "start": "npm run build&&main.exe"
   },
   "keywords": [],
   "author": "",
