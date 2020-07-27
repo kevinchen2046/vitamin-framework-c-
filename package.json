@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "g++ main.cpp -o main",
+    "exec": "main.exe",
     "start": "npm run build&&main.exe"
   },
   "keywords": [],
