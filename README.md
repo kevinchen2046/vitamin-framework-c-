@@ -74,4 +74,8 @@ https://nchc.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win6
     person.sex = "M";
     person.say();
     ```
-  - 使用::定义和调用静态方法
+  - 使用`::`定义和调用静态方法
+
+## 自动编译
+`> gulp compile`
+通过gulp扫码目录结构，并自动编译链接库。最终编译成exe。

@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <windows.h>
-
 #include <iostream>
 #include <limits>
-#include "src/Person.h"
+#include "src/person.h"
 #include "src/core/helper.h"
 
 using namespace std;
@@ -17,22 +16,22 @@ enum Color
 
 int main()
 {
+    //支持UTF8，防止中文乱码
     system("chcp 65001");
-    printf("Hello World\n");
 
-    char a[] = "12121";
-    string str = "dfdfdf\n";
-    printf(strcat(a, "\n"));
-    printf("> %s %d %s", str.data(), str.length(), "\n");
+    string str = "Hello";
+    string megestr = str + "World!";
+    printf("> merge: %s , enum:%d %s", megestr.c_str(), Color::blue, "\n");
+    printf("> str: %s , length:%d %s", str.c_str(), str.length(), "\n");
 
     Helper::logTypes();
 
-    Person xc;
-    xc.age = 18;
-    xc.name = "X";
-    xc.sex = "M";
-    xc.say();
-    
+    Person person;
+    person.age = 20;
+    person.name = "Kevin";
+    person.sex = "Men";
+    person.say();
+
     system("pause");
     return 0;
 }

@@ -1,15 +1,19 @@
-#ifndef PERSON_H
-#define PERSON_H
-#include <iostream>
+#ifndef PERSON
+#define PERSON
+#include <stdio.h>
+
 using namespace std;
+
 class Person
 {
 public:
     int age;
     string name;
     string sex;
+
 public:
-    Person();    //构造函数
+    //构造函数
+    Person();
     void say();
 };
 #endif
