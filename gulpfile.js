@@ -1,5 +1,5 @@
 const { series } = require('gulp');
-const logger=require('gulplog')
+const logger = require('gulplog')
 const fs = require('fs');
 const path = require('path');
 
@@ -127,6 +127,9 @@ async function compile() {
         var mergefiled = "";
         for (var item of history) {
             mergefiled += item.file.replace('.cpp', '.o') + " ";
+        }
+        if (!fs.existsSync('./bin')) {
+            fs.mkdirSync("./bin");
         }
         logger.info(`[compile] create main.exe...`)
         await Util.runCmd(`g++ ${mergefiled} -o bin/main.exe`);
