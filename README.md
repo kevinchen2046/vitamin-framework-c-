@@ -79,3 +79,73 @@ https://nchc.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win6
 ## 自动编译
 `> gulp compile`
 通过gulp扫码目录结构，并自动编译链接库。最终编译成exe。
+
+----
+
+## 例子
+```c++
+#include <stdio.h>
+#include <windows.h>
+#include <iostream>
+#include <limits>
+#include "person.h"
+#include "core/helper.h"
+#include "core/logger.h"
+using namespace std;
+
+enum Color
+{
+    red,
+    green,
+    blue
+};
+
+int main()
+{
+    //支持UTF8，防止中文乱码
+    system("chcp 65001");
+    Helper::logTypes();
+
+    string str = "Hello";
+    string megestr = str + "World!";
+    Logger::info("> merge: %s , enum:%d", megestr.c_str(), Color::blue);
+    //printf("> str: %s , length:%d %s", str.c_str(), str.length(), "\n");
+    Logger::log("> str: %s , length:%d", str.c_str(), str.length());
+    
+
+    Person person;
+    person.age = 20;
+    person.name = "Kevin Chen";
+    person.sex = "Men";
+    person.say();
+
+    system("pause");
+    return 0;
+}
+```
+```shell
+[WAR] ---------------------------------------------------------------------
+[INF] 类型               所占字节数             最大值          最小值
+[WAR] ---------------------------------------------------------------------
+[LOG] bool:              1                       1               0
+[LOG] char:              1                       127             -128
+[LOG] signed char:       1                       127             -128
+[LOG] unsigned char:     1                       255             0
+[LOG] wchar_t:           2                       65535           0
+[LOG] short:             2                       32767           -32768
+[LOG] int:               4                       2147483647      -2147483648
+[LOG] unsigned:          4                       -1              0
+[LOG] long:              4                       2147483647      -2147483648
+[LOG] unsigned long:     4                       -1              0
+[LOG] double:            8                       -1              0
+[LOG] long double:       16                      6421760         6421744
+[LOG] float:             4                       -536870912      0
+[LOG] size_t:            8                       -1              0
+[LOG] string:            32                      6421808         6421776
+[WAR] ---------------------------------------------------------------------
+[INF] > merge: HelloWorld! , enum:2
+[LOG] > str: Hello , length:5
+[LOG] > 构造Person...
+[DEB] 我叫Kevin Chen, 性别 Men, 今年20岁.
+Press any key to continue . . .
+```
