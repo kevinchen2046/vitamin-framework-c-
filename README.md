@@ -123,6 +123,27 @@ int main()
     return 0;
 }
 ```
+一行命令自动编译...
+```shell
+> npm run start ↵
+
+> vitamin@1.0.0 start G:\workspace\c++-space\vitamin-framework-cpp
+> npm run build&&npm run exec
+
+> vitamin@1.0.0 build G:\workspace\c++-space\vitamin-framework-cpp
+> gulp compile
+
+> [21:14:36] Using gulpfile G:\workspace\c++-space\vitamin-framework-cpp\gulpfile.js
+> [21:14:36] Starting 'compile'...
+> [21:14:36] [compile] now compile: src/core/helper.cpp >> src/core/helper.o ...
+> [21:14:36] [compile] create main.exe...
+> [21:14:37] [compile] compile complete.
+> [21:14:37] Finished 'compile' after 781 ms
+
+> vitamin@1.0.0 exec G:\workspace\c++-space\vitamin-framework-cpp
+> .\bin\main.exe
+```
+输出带颜色和标签区分的控制台内容...
 ```shell
 [WAR] ---------------------------------------------------------------------
 [INF] 类型               所占字节数             最大值          最小值
