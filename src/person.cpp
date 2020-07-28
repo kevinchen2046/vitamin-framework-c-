@@ -1,12 +1,12 @@
 #include <iostream>
 #include "person.h"
-
+#include "core/logger.h"
 Person::Person(){
-    printf("> 构造Person...");
+    Logger::log("> 构造Person...");
     this->name = "KevinChen";
     this->sex = "SuperMen";
 }
 
 void Person::say(){
-    printf("我叫%s, 性别 %s, 今年%d岁. %s", this->name.c_str(), this->sex.c_str(), this->age, "\n");
+    Logger::debug("我叫%s, 性别 %s, 今年%d岁.", this->name.c_str(), this->sex.c_str(), this->age);
 }

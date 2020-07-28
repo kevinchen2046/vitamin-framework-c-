@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build:o": "g++ -c src/core/helper.cpp -o src/core/helper.o&&g++ -c src/person.cpp -o src/person.o&&g++ -c main.cpp -o main.o",
-    "build:sigle": "g++ main.cpp -o main",
-    "build:all": "g++ src/person.o src/core/helper.o main.o -o main",
+    "build:s": "g++ main.cpp -o main",
+    "build:a": "g++ src/person.o src/core/helper.o main.o -o main",
     "build": "gulp compile",
     "exec": ".\\bin\\main.exe",
-    "start": "npm run build&&.\\bin\\main.exe"
+    "start": "npm run build&&npm run exec"
   },
   "keywords": [],
   "author": "",

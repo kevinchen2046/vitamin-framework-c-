@@ -9,7 +9,7 @@ class Person{
         int age;
         string name;
         string sex;
-    
+
     public:
         //构造函数
         Person();
