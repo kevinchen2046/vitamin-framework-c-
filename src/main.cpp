@@ -2,8 +2,8 @@
 #include <windows.h>
 #include <iostream>
 #include <limits>
-#include "src/person.h"
-#include "src/core/helper.h"
+#include "person.h"
+#include "core/helper.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ int main()
 
     Person person;
     person.age = 20;
-    person.name = "Kevin";
+    person.name = "Kevin Chen";
     person.sex = "Men";
     person.say();
 

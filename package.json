@@ -8,8 +8,8 @@
     "build:sigle": "g++ main.cpp -o main",
     "build:all": "g++ src/person.o src/core/helper.o main.o -o main",
     "build": "gulp compile",
-    "exec": "main.exe",
-    "start": "npm run build&&main.exe"
+    "exec": ".\\bin\\main.exe",
+    "start": "npm run build&&.\\bin\\main.exe"
   },
   "keywords": [],
   "author": "",
