@@ -46,14 +46,21 @@ https://nchc.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win6
 
 - printf 需要提供占位符以确定后续参数.
 
-  - %s 普通字符或字符串
-  - %c 整数转成对应的 ASCII 字元。
-  - %d 整数转成十进位。
-  - %f 倍精确度数字转成浮点数。
-  - %o 整数转成八进位。
-  - %s 整数转成字符串。
-  - %x 整数转成小写十六进位。
-  - %X 整数转成大写十六进位。
+  - %d 整形
+  - %f 浮点型
+  - %u unsigned
+  - %o 8进制bai
+  - %x 16进制
+  - %d 整型输出du，%ld长整型输出，
+  - %o 以八进制数形式输出整数，
+  - %x 以十六dao进制数形式输出整数，
+  - %u 以十进制数输出unsigned型数据(无符号数)。
+  - %c 用来输出一个字符，
+  - %s 用来输出一个字符串，
+  - %f 用来输出实数，以小数形式输出，
+  - %e 以指数形式输出实数，
+  - %g 根据大小自动选f格式或e格式，且不输出无意义的零。
+  - %p 指针
   - %n sscanf(str, “%d%n”, &dig, &n)，%n表示一共转换了多少位的字符
 
     ```c++
@@ -109,7 +116,6 @@ int main()
     string str = "Hello";
     string megestr = str + "World!";
     Logger::info("> merge: %s , enum:%d", megestr.c_str(), Color::blue);
-    //printf("> str: %s , length:%d %s", str.c_str(), str.length(), "\n");
     Logger::log("> str: %s , length:%d", str.c_str(), str.length());
     
 
