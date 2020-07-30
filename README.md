@@ -72,7 +72,14 @@ https://nchc.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win6
 - class 类定义
   - 定义通常是在头文件中
   - 实现通常是在cpp文件中
-  - 实例化不需要new
+  - 实例化有new和非new
+    - new创建类对象需要指针接收，一处初始化，多处使用
+    - new创建类对象使用完需delete销毁
+    - new创建对象直接使用堆空间，而局部不用new定义类对象则使用栈空间
+    - new对象指针用途广泛，比如作为函数返回值、函数参数等
+    - 频繁调用场合并不适合new，就像new申请和释放内存一样
+    - `非new的对象在当前执行域结束后会被自动删除，而new对象需要调用delete来删除`
+
     ```c++
     Person person;
 
@@ -80,12 +87,114 @@ https://nchc.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win6
     person.name = "X";
     person.sex = "M";
     person.say();
+
+    Person *person=new Person;
+
+    person->age = 18;
+    person->name = "X";
+    person->sex = "M";
+    person->say();
     ```
   - 使用`::`定义和调用静态方法
 
 ## 自动编译
 `> gulp compile`
 通过gulp扫码目录结构，并自动编译链接库。最终编译成exe。
+
+## 虚函数与析构函数
+  - 虚函数 使用关键字virtual,其实是控制子类的重写特性.
+  基类中的虚函数允许派生类重写功能，编译器会保证派生类对象使用的是自己重写的功能，即使对象是通过基类指针访问的.
+  - 析构函数 使用(~function)形式，简单来说 就是对该函数的反向操作
+  通常是对构造函数进行析构.
+```c++
+class Animal
+{
+public:
+    Animal(){
+        Logger::log("Animal Create!");
+    }
+    virtual ~Animal(){
+        Logger::log("Animal Delete!");
+    }
+    virtual void eat()
+    {
+        Logger::log("this is Animal");
+    }
+    
+};
+class Cat : public Animal
+{
+public:
+    Cat(){
+        Logger::log("Cat Create!");
+    }
+    virtual ~Cat(){
+        Logger::log("Cat Delete!");
+    }
+    void eat()
+    {
+        Logger::log("this is Cat");
+    }
+};
+
+Animal animal;
+animal.eat();
+
+Cat *cat=new Cat;
+cat->eat();
+delete cat;
+```
+
+## 指针
+   指针是c++的重要概念，但是可以简单理解成其他OOP高级语言的引用机制，只不过C++更低级的接口使得你可以控制这些引用。
+```c++
+string value = "abc";
+int MAX = 3;
+int var[MAX] = {10, 100, 200}
+
+//将value的内存地址赋给指针p1
+string *p1 = &value;
+//将指针p1赋给指针p2
+string *p2 = p1;
+//将指针p2的内存地址赋给指针p3
+string **p3 = &p2
+
+Logger::info("-------------------NULL 指针--------------------");
+string *p_null = NULL;
+Logger::log("Null 指针 *p_null 的值是:%p", p_null)
+
+Logger::info("-----------------指针的算术运算(递增)------------------");
+int *array_p;
+array_p = var; // 指针中第一个元素的地址
+for (int i = 0; i < MAX; i++)
+{
+    Logger::log("var[%d]的地址是:%x,值是:%d", i, array_p, *array_p);
+    // 移动到下一个位置
+    array_p++;
+}
+
+Logger::info("-----------------指针的算术运算(比较)------------------");
+array_p = var; // 指针中第一个元素的地址
+int i = 0;
+while (array_p <= &var[MAX - 1])
+{
+    Logger::log("var[%d]的地址是:%x,值是:%d", i, array_p, *array_p);
+    // 指向上一个位置
+    array_p++;
+    i++;
+
+Logger::info("-------------------指针&数组--------------------");
+*(var + 2) = 500; //把 var[2] 赋值为 500：
+for (int i = 0; i < MAX; i++)
+{
+    Logger::log("赋值前,i:%d,var值是:%x,%d,%d", i, var, *var, var[i]);
+    *var = i; // 这是正确的语法
+    Logger::log("赋值后,i:%d,var值是:%x,%d,%d", i, var, *var, var[i]);
+    //var++;    // 这是不正确的
+}
+//把指针运算符 * 应用到 var 上是完全可以的，但修改 var 的值是非法的。这是因为 var 是一个数组开头的常量，不能作为左值。
+//由于一个数组名对应一个指针常量，只要不改变数组的值，仍然可以用指针形式的表达式。
+```
 
 ----
 

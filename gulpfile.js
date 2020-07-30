@@ -119,24 +119,24 @@ async function compile() {
     if (results.length) {
         //编译链接库
         for (var item of results) {
+            if(item.file.indexOf('src/main.cpp')>=0) continue;
             logger.info(`[compile] now compile: ${item.file} >> ${item.file.replace('.cpp', '.o')} ...`)
             await Util.runCmd(`g++ -c ${item.file} -o ${item.file.replace('.cpp', '.o')}`);
             mergefiled += item.file.replace('.cpp', '.o') + " ";
         }
-        //编译所有链接库
-        var mergefiled = "";
-        for (var item of history) {
-            mergefiled += item.file.replace('.cpp', '.o') + " ";
-        }
-        if (!fs.existsSync('./bin')) {
-            fs.mkdirSync("./bin");
-        }
-        logger.info(`[compile] create main.exe...`)
-        await Util.runCmd(`g++ ${mergefiled} -o bin/main.exe`);
-        logger.info("[compile] compile complete.");
-    } else {
-        logger.info("[compile] files not changed...");
     }
+    //编译所有链接库
+    var mergefiled = "";
+    for (var item of history) {
+        mergefiled += item.file.replace('.cpp', '.o') + " ";
+    }
+    if (!fs.existsSync('./bin')) {
+        fs.mkdirSync("./bin");
+    }
+    logger.info(`[compile] create main.exe... `);
+    await Util.runCmd(`g++ -c src/main.cpp -o src/main.o`);
+    await Util.runCmd(`g++ ${mergefiled} -o bin/main.exe`);
+    logger.info("[compile] compile complete.");
     //更新编译历史记录
     fs.writeFileSync('.compile', JSON.stringify(history), 'utf-8');
 }

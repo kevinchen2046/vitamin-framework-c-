@@ -1,5 +1,5 @@
-#ifndef HELPER
-#define HELPER
+#ifndef VITAMIN_HELP
+#define VITAMIN_HELP
 
 class Helper
 {

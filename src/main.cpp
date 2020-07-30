@@ -2,16 +2,12 @@
 #include <windows.h>
 #include <iostream>
 #include <limits>
-#include "person.h"
+#include "core/vitamin.h"
+
 #include "core/helper.h"
 #include "core/logger.h"
+#include "person.h"
 using namespace std;
-
-//bool to string
-string BTS(int value)
-{
-    return value > 0 ? "true" : "false";
-}
 
 enum Color
 {
@@ -20,10 +16,94 @@ enum Color
     blue
 };
 
+class Animal
+{
+public:
+    Animal()
+    {
+        Logger::log("Animal Create!");
+    }
+    virtual ~Animal()
+    {
+        Logger::log("Animal Delete!");
+    }
+    virtual void eat()
+    {
+        Logger::log("this is Animal");
+    }
+};
+class Cat : public Animal
+{
+public:
+    Cat()
+    {
+        Logger::log("Cat Create!");
+    }
+    virtual ~Cat()
+    {
+        Logger::log("Cat Delete!");
+    }
+    void eat()
+    {
+        Logger::log("this is Cat");
+    }
+};
+class ModelUser : public ModelBase
+{
+public:
+    ModelUser()
+    {
+        Logger::log("ModelUser Create!");
+    }
+    virtual ~ModelUser()
+    {
+        Logger::log("ModelUser Delete!");
+    }
+};
+#define STR(x)  #x
+#define CONS(a, b)   (a##e##b)
+
+
+struct Point
+{
+    int x;
+
+    int y;
+};
+
 int main()
 {
     //支持UTF8，防止中文乱码
     system("chcp 65001");
+
+    //Animal animal;
+    // animal.eat();
+
+    // Cat baseCat;
+    Cat *cat = new Cat;
+    cat->eat();
+    Logger::log(STR(cat));  //输出字符串helloworld
+    Logger::log("%f \n", CONS(2,3));  //输出 2000.0
+    Point p;
+    p.x=12;
+    p.y=13;
+    Logger::log("%d %d\n",p.x,p.y);
+    //delete cat;
+    // Logger::log("%p,%p",cat,baseCat);
+    ModelBase* model=new ModelBase;
+    // Logger::info(typeid(Cat).name());
+    // Logger::info(typeid(cat).name());
+    // Logger::info(typeid(*cat).name());
+    // Animal *animal=cat;
+    // Logger::info(typeid(Animal).name());
+    // Logger::info(typeid(animal).name());
+    // Logger::info(typeid(*animal).name());
+    // ModelBase *model=new ModelBase;
+    // ModelUser *modelUser=new ModelUser;
+    // Logger::info(isModel(model)?"true":"false");
+    // Logger::info(isModel(cat)?"true":"false");
+    // Logger::info(isModel(modelUser)?"true":"false");
+    return 0;
     Helper::logTypes();
 
     string str = "Hello";

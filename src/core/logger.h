@@ -1,5 +1,5 @@
-#ifndef LOGGER
-#define LOGGER
+#ifndef VITAMIN_LOGGER
+#define VITAMIN_LOGGER
 
 class Logger
 {
