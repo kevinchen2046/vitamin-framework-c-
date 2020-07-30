@@ -133,7 +133,7 @@ async function compile() {
     if (!fs.existsSync('./bin')) {
         fs.mkdirSync("./bin");
     }
-    logger.info(`[compile] create main.exe... `);
+    logger.info(`[compile] create main.exe... {${mergefiled}}`);
     await Util.runCmd(`g++ -c src/main.cpp -o src/main.o`);
     await Util.runCmd(`g++ ${mergefiled} -o bin/main.exe`);
     logger.info("[compile] compile complete.");

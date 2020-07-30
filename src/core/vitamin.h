@@ -2,10 +2,8 @@
 #define VITAMIN
 
 #include <iostream>
-#include <map>
-
+#include "inject.h"
 using namespace std;
-
 
 // #define INJECT(_Access, _Field_Ty, _Field_Key, _Obj_Ty)      \
 //     _Access:                                                 \
@@ -28,17 +26,6 @@ using namespace std;
 // ModelBase Inject(VAL clazz){
 //     return NULL;
 // }
-
-//bool to string
-string bool_to_str(int value);
-
-string getRealClassName(const char *name);
-
-template <typename T>
-string getDefineName();
-
-template <typename VAL>
-string getDefineName(VAL val);
 
 template <typename T>
 bool isModel(T val);
@@ -79,16 +66,19 @@ public:
     virtual void exec();
 };
 
-class Injector
+class Vitamin
 {
 private:
-    static std::map<const char *, ModelBase *> __modelmap__;
-    static std::map<const char *, CommandBase *> __cmdmap__;
-
+    Injector<ModelBase*>* __modelInjector;
+    Injector<CommandBase*>* __cmdInjector;
 public:
-    Injector();
+    Vitamin();
+    static Vitamin* instance();
+
+    void initialize();
+
     template <typename T>
-    static void __register(T val);
+    void inject();
 };
 
 #endif
