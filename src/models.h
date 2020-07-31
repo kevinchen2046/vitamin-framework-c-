@@ -12,14 +12,16 @@ public:
 
 class ModelUser : public ModelBase
 {
+
 public:
+    string name;
     ModelUser()
     {
-        Logger::log("ModelUser Create!");
+        this->name="My Name is Model User!";
+        
     }
-    ~ModelUser()
-    {
-        Logger::log("ModelUser Delete!");
+    void initialize(){
+       //Logger::log("ModelUser initialize!");
     }
 };
 
@@ -29,16 +31,9 @@ private:
     ModelUser *user;
 
 public:
-    ModelLogin()
-    {
-        Logger::log("ModelLogin Create!");
-    }
-    ~ModelLogin()
-    {
-        Logger::log("ModelLogin Delete!");
-    }
     void initialize(){
-        Logger::info("this is user: $p",this->user);
+        this->user=Vitamin::instance()->inject<ModelUser>();
+        Logger::info("User: %s",this->user->name.c_str());
     }
 };
 

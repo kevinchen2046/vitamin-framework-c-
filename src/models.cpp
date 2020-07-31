@@ -3,7 +3,10 @@
 #include "models.h"
 
 void Models::initialize(){
+    
     Vitamin *ins=Vitamin::instance();
-    ins->inject<ModelUser>();
-    ins->inject<ModelLogin>();
+    ins->initialize();
+    ins->__register<ModelUser>();
+    ins->__register<ModelLogin>();
+    ins->initializeInjects();
 }

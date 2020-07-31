@@ -2,7 +2,8 @@
 #define VITAMIN
 
 #include <iostream>
-#include "inject.h"
+#include "helper.h"
+#include "logger.h"
 using namespace std;
 
 // #define INJECT(_Access, _Field_Ty, _Field_Key, _Obj_Ty)      \
@@ -69,16 +70,48 @@ public:
 class Vitamin
 {
 private:
-    Injector<ModelBase*>* __modelInjector;
-    Injector<CommandBase*>* __cmdInjector;
+    Injector<ModelBase> *__injector1;
+    Injector<CommandBase> *__injector2;
+
 public:
-    Vitamin();
-    static Vitamin* instance();
+    Vitamin()
+    {
+    }
+    static Vitamin *instance();
+    void initialize()
+    {
+        this->__injector1 = new Injector<ModelBase>;
+        this->__injector2 = new Injector<CommandBase>;
+    }
 
-    void initialize();
+    template <typename C>
+    void __register()
+    {
+        bool result = this->__injector1->___register<C>();
+        if (!result)
+            this->__injector2->___register<C>();
+        //Logger::info("Register:%s", Helper::getDefineName<C>().c_str());
+    }
 
-    template <typename T>
-    void inject();
+    void initializeInjects()
+    {
+        this->__injector1->log();
+        this->__injector2->log();
+        this->__injector1->forEach([](ModelBase* model){
+            model->initialize();
+        });
+    }
+
+    template <typename C>
+    C* inject()
+    {
+        C* inst = this->__injector1->inject<C*>();
+        if (&inst == NULL)
+        {
+            inst = this->__injector2->inject<C*>();
+        }
+        Logger::info("Inject:%s,Instance:%p", Helper::getDefineName<C>().c_str(), inst);
+        return inst;
+    }
 };
-
 #endif

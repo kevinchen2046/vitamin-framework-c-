@@ -1,7 +1,9 @@
 #ifndef PERSON
 #define PERSON
-#include <stdio.h>
 
+#include <iostream>
+#include <stdio.h>
+#include "core/logger.h"
 using namespace std;
 
 enum Color

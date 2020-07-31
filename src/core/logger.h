@@ -5,6 +5,7 @@ class Logger
 {
     public:
         Logger();
+        static void line(const char *__format, ...);
         static void grey(const char *__format, ...);
         static void log(const char *__format, ...);
         static void info(const char *__format, ...);

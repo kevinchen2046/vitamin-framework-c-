@@ -12,7 +12,26 @@ std::string &getFormattedStr(std::string &strFormatted, const char *strFormat, v
   strFormatted = strResult;
   return strFormatted;
 }
-
+void Logger::line(const char *__format, ...)
+{
+  int total = 60;
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+  std::string strLog;
+  va_list arglist;
+  va_start(arglist, __format);
+  string result = getFormattedStr(strLog, __format, arglist);
+  int rlen = result.length();
+  int half = ((total - rlen) / 2) >> 0;
+  string line = "";
+  for (int i = 0; i < half; i++)
+  {
+    line += "-";
+  }
+  strLog = "[INF] " + line + result + line;
+  va_end(arglist);
+  std::cout << strLog << std::endl;
+  SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
 void Logger::grey(const char *__format, ...)
 {
   SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY);
