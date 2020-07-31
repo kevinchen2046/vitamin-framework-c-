@@ -76,6 +76,7 @@ private:
 public:
     Vitamin()
     {
+        this->initialize();
     }
     static Vitamin *instance();
     void initialize()
