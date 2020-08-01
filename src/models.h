@@ -1,28 +1,16 @@
 #ifndef GAME_MODELS
 #define GAME_MODELS
 
-#include "core/vitamin.h"
-#include "core/logger.h"
+#include "core/vitamin.hpp"
 
-class Models 
-{
-public:
-    static void initialize();
-};
+using namespace vitamin;
 
 class ModelUser : public ModelBase
 {
-
 public:
     string name;
-    ModelUser()
-    {
-        this->name="My Name is Model User!";
-        
-    }
-    void initialize(){
-       //Logger::log("ModelUser initialize!");
-    }
+    ModelUser();
+    void initialize();
 };
 
 class ModelLogin : public ModelBase
@@ -31,10 +19,24 @@ private:
     ModelUser *user;
 
 public:
-    void initialize(){
-        this->user=Vitamin::instance()->inject<ModelUser>();
-        Logger::info("User: %s",this->user->name.c_str());
-    }
+    void initialize();
+};
+
+class ChatCmd : public CommandBase
+{
+public:
+    void exec();
+};
+
+class ViewLogin : public ViewBase
+{
+private:
+    ModelLogin *login;
+
+public:
+    void initialize();
+    void enter();
+    void exit();
 };
 
 #endif

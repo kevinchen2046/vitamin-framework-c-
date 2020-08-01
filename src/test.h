@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "core/logger.h"
+#include "core/event.hpp"
 
 using namespace std;
 
@@ -57,6 +58,32 @@ public:
         }
         //把指针运算符 * 应用到 var 上是完全可以的，但修改 var 的值是非法的。这是因为 var 是一个指向数组开头的常量，不能作为左值。
         //由于一个数组名对应一个指针常量，只要不改变数组的值，仍然可以用指针形式的表达式。
+
+        ///////////////////////////////////////////////////////////////////
+        vitamin::EventEmitter event;
+
+        event.on("hi", []() {
+                 std::cout << "Hello World!" << std::endl;
+             })
+            .emit("hi");
+
+        event.on("twice", []() {
+                 std::cout << "Hello World!1" << std::endl;
+             })
+            .on("twice", []() {
+                std::cout << "Hello World!2" << std::endl;
+            })
+            .emit("twice");
+
+        event.on("hello", [](int nb) {
+                 std::cout << "Hello " << nb << "!" << std::endl;
+             })
+            .emit("hello", 42);
+
+        vitamin::EventEmitter event2 = event;
+
+        event2.emit("hello", 24); /*.On("ref", [](ium::EventEmitter &e) { e.Emit("hello"); })
+            .Emit("ref", event2)*/
     }
 };
 

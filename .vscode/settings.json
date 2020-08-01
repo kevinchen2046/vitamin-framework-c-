@@ -40,6 +40,9 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "map": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "list": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp"
     }
 }

@@ -2,60 +2,45 @@
 #include <iostream>
 #include <map>
 #include <string>
-
-#include "helper.h"
+#include "helper.hpp"
 #include "logger.h"
-#include "vitamin.h"
+#include "vitamin.hpp"
 
 using namespace std;
-
-ModelBase::ModelBase()
+using namespace vitamin;
+namespace vitamin
 {
-}
-
-ModelBase::~ModelBase(void)
-{
-}
-void ModelBase::initialize()
-{
-}
-void ModelBase::reset()
-{
-}
-
-ViewBase::ViewBase(void)
-{
-    this->addChildren();
-}
-ViewBase::~ViewBase(void)
-{
-}
-void ViewBase::addChildren()
-{
-}
-void ViewBase::enter()
-{
-}
-void ViewBase::exit()
-{
-}
-
-CommandBase::CommandBase()
-{
-}
-CommandBase::~CommandBase()
-{
-}
-void CommandBase::exec()
-{
-}
-
-Vitamin *__instance;
-Vitamin *Vitamin::instance()
-{
-    if (__instance == NULL)
+    /////////////////////////////////////////////////////////
+    ModelBase::ModelBase() {}
+    ModelBase::~ModelBase() {}
+    void ModelBase::initialize() {}
+    void ModelBase::reset() {}
+    EventEmitter ModelBase::off(std::string listener_id)
     {
-        __instance = new Vitamin;
+        return Vitamin::instance().emitter->removeListener(listener_id);
+    };
+    /////////////////////////////////////////////////////////
+    ViewBase::ViewBase()
+    {
+        this->addChildren();
+        this->initialize();
     }
-    return __instance;
-}
+    ViewBase::~ViewBase() {}
+    void ViewBase::addChildren() {}
+    void ViewBase::initialize() {}
+    void ViewBase::enter() {}
+    void ViewBase::exit() {}
+    EventEmitter ViewBase::on(std::string event_id, std::function<void()> cb)
+    {
+        return Vitamin::instance().emitter->addListener(event_id, cb);
+    };
+    EventEmitter ViewBase::off(std::string listener_id)
+    {
+        return Vitamin::instance().emitter->removeListener(listener_id);
+    };
+    /////////////////////////////////////////////////////////
+    CommandBase::CommandBase() {}
+    CommandBase::~CommandBase() {}
+    void CommandBase::exec() {}
+    /////////////////////////////////////////////////////////
+} // namespace vitamin

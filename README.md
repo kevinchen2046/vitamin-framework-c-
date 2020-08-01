@@ -198,11 +198,17 @@ for (int i = 0; i < MAX; i++)
 ----
 
 ## 注意
-- template只能在`.h`文件中实现
-- .h 和 .cpp 文件任意文件变更，都要重新生成动态库
-- 全局方法不能和class混合定义（在同一个头文件），最好把全局方法定义成类的静态方法
-
-- ！！如果逻辑写在 .h 文件中 需要重新生成所有引用这个 h文件的动态库
+- `.h`和`.hpp`为**头文件**,`.cpp`为**实现文件**
+- 关于类的定义
+  - 所有在**头文件**定义的方法必须都具有实现.
+  - `template`只能在**头文件**中实现
+  - 非`template`方法只能在**实现文件**中实现
+  - **头文件**中不能包含全局定义,最好把全局方法定义成类的静态方法,并在**实现文件**中实现
+  - 不能在**头文件**中的`class`内定义`static`属性。`static`属性的实现需要在**实现文件**中。
+  
+- 关于编译
+  - .h 和 .cpp 文件任意文件变更，都要重新生成动态库
+  - 如果逻辑写在 .h 文件中 需要重新生成所有引用这个 h文件的动态库
 ----
 
 ## 关于宏
@@ -215,35 +221,28 @@ for (int i = 0; i < MAX; i++)
 #include <windows.h>
 #include <iostream>
 #include <limits>
-#include "person.h"
-#include "core/helper.h"
-#include "core/logger.h"
-using namespace std;
+#include <map>
 
-enum Color
-{
-    red,
-    green,
-    blue
-};
+#include "core/helper.hpp"
+#include "core/logger.h"
+#include "models.h"
+
+using namespace std;
+using namespace vitamin;
 
 int main()
 {
     //支持UTF8，防止中文乱码
     system("chcp 65001");
-    Helper::logTypes();
 
-    string str = "Hello";
-    string megestr = str + "World!";
-    Logger::info("> merge: %s , enum:%d", megestr.c_str(), Color::blue);
-    Logger::log("> str: %s , length:%d", str.c_str(), str.length());
-    
+    Vitamin::instance().__register<ModelUser>();
+    Vitamin::instance().__register<ModelLogin>();
+    Vitamin::instance().__register<ChatCmd>();
+    Vitamin::instance().initializeInjects();
+    Vitamin::instance().emitter->emit("TEST1", 45);
 
-    Person person;
-    person.age = 20;
-    person.name = "Kevin Chen";
-    person.sex = "Men";
-    person.say();
+    ViewLogin view;
+    view.enter();
 
     system("pause");
     return 0;
@@ -252,47 +251,4 @@ int main()
 一行命令自动编译...
 ```shell
 > npm run start ↵
-
-> vitamin@1.0.0 start G:\workspace\c++-space\vitamin-framework-cpp
-> npm run build&&npm run exec
-
-> vitamin@1.0.0 build G:\workspace\c++-space\vitamin-framework-cpp
-> gulp compile
-
-> [21:14:36] Using gulpfile G:\workspace\c++-space\vitamin-framework-cpp\gulpfile.js
-> [21:14:36] Starting 'compile'...
-> [21:14:36] [compile] now compile: src/core/helper.cpp >> src/core/helper.o ...
-> [21:14:36] [compile] create main.exe...
-> [21:14:37] [compile] compile complete.
-> [21:14:37] Finished 'compile' after 781 ms
-
-> vitamin@1.0.0 exec G:\workspace\c++-space\vitamin-framework-cpp
-> .\bin\main.exe
-```
-输出带颜色和标签区分的控制台内容...
-```shell
-[WAR] ---------------------------------------------------------------------
-[INF] 类型               所占字节数             最大值          最小值
-[WAR] ---------------------------------------------------------------------
-[LOG] bool:              1                       1               0
-[LOG] char:              1                       127             -128
-[LOG] signed char:       1                       127             -128
-[LOG] unsigned char:     1                       255             0
-[LOG] wchar_t:           2                       65535           0
-[LOG] short:             2                       32767           -32768
-[LOG] int:               4                       2147483647      -2147483648
-[LOG] unsigned:          4                       -1              0
-[LOG] long:              4                       2147483647      -2147483648
-[LOG] unsigned long:     4                       -1              0
-[LOG] double:            8                       -1              0
-[LOG] long double:       16                      6421760         6421744
-[LOG] float:             4                       -536870912      0
-[LOG] size_t:            8                       -1              0
-[LOG] string:            32                      6421808         6421776
-[WAR] ---------------------------------------------------------------------
-[INF] > merge: HelloWorld! , enum:2
-[LOG] > str: Hello , length:5
-[LOG] > 构造Person...
-[DEB] 我叫Kevin Chen, 性别 Men, 今年20岁.
-Press any key to continue . . .
 ```
